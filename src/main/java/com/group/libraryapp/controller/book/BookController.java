@@ -1,6 +1,5 @@
 package com.group.libraryapp.controller.book;
 
-import com.group.libraryapp.domain.book.Book;
 import com.group.libraryapp.dto.book.request.BookCreateRequest;
 import com.group.libraryapp.dto.book.request.BookLoanRequest;
 import com.group.libraryapp.dto.book.request.BookReturnRequest;
