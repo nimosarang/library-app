@@ -10,7 +10,6 @@ public class UserLoanHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id = null;
 
-    //ManyToOne(N:1관계_ex.학생과 교실) 대출기록은 여러개이고 대출기록 소유하는 사용자는 1명이다
     @JoinColumn(nullable = false)
     @ManyToOne
     private User user;

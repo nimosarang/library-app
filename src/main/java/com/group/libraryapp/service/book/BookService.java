@@ -4,13 +4,10 @@ import com.group.libraryapp.domain.book.Book;
 import com.group.libraryapp.domain.book.BookRepository;
 import com.group.libraryapp.domain.user.User;
 import com.group.libraryapp.domain.user.UserRepository;
-import com.group.libraryapp.domain.user.loanhistory.UserLoanHistory;
 import com.group.libraryapp.domain.user.loanhistory.UserLoanHistoryRepository;
 import com.group.libraryapp.dto.book.request.BookCreateRequest;
 import com.group.libraryapp.dto.book.request.BookLoanRequest;
 import com.group.libraryapp.dto.book.request.BookReturnRequest;
-import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 
 @Service
@@ -41,12 +38,6 @@ public class BookService {
         Book book = bookRepository.findByName(request.getBookName())
                 .orElseThrow(IllegalAccessError::new);
 
-        //2. 대출기록 정보를 확인해서 대출 중인지 확인한다
-        //3. 만약에 확인했는데 대출 중이라면 예외를 발생키신다.
-        // existsByBookNameAndIsReturn 을 호출했을 때,
-        // 책이름_book.getName()과 false(대여중인)을 준다면,
-        // 아래 if 문의 조건 전체가 true = 대여중인 책이 존재 / false = 대여중인 책이 없다 => "즉, 만약 반납되지 않은게 존재한다면"
-        // 대여중인 책이 있는 경우 예외 던짐
         if (userLoanHistoryRepository.existsByBookNameAndIsReturn(book.getName(), false)) {
             throw new IllegalArgumentException("현재 대출중인 책 입니다.");
 
@@ -66,16 +57,9 @@ public class BookService {
 
     @Transactional
     public void returnBook(BookReturnRequest request) {
-        //1.유저 찾기
         User user = userRepository.findByName(request.getUserName())
                 .orElseThrow(IllegalArgumentException::new);
         user.returnBook(request.getBookName());
-
-//        //                                                  유저 아이디와 '주어지는' 책 이름
-//        UserLoanHistory history = userLoanHistoryRepository.findByUserIdAndBookName(user.getId(), request.getBookName())
-//                .orElseThrow(IllegalArgumentException::new);// 유저 아이디와 책이름을 이용해서 대출기록 찾음
-//        //대출 기록을 반납 처리
-//        history.doReturn();
 
     }
 

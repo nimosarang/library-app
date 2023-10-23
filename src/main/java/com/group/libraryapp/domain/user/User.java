@@ -52,7 +52,8 @@ public class User {
         this.userLoanHistories.add(new UserLoanHistory(this, bookName));
     }
 
-    public void returnBook(String bookName) { //유저가 본인과 연결되어 있는 대출기록들 중에서, 값이 들어오는 책 이름과 같은 걸 찾아서 반납처리하는 로직
+    public void returnBook(String bookName) {
+        //유저가 본인과 연결되어 있는 대출기록들 중에서, 값이 들어오는 책 이름과 같은 걸 찾아서 반납처리하는 로직
         //userLoanHistories 중에서 해당 책 이름을 가진 기록을 찾아야함
         UserLoanHistory targetHistory = this.userLoanHistories.stream() //함수형 프로그래밍을 할 수 있게, stream 을 시작한다.
                 .filter(history -> history.getBookName().equals(bookName))//들어오는 객체들(userLoanHistories 객체들) 중에서 다음 조건(filter(~~))을 충족하는 것만 필터링한다 (이 값이 파라미터로 받은 북네임과 같은게 걸리겠죠)
